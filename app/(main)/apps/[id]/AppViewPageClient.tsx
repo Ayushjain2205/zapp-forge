@@ -1,9 +1,8 @@
-import { getPrisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
-import AppOnlyOutputClient from "./AppOnlyOutput.client";
-import type { Chat, Message } from "../../chats/[id]/page";
+"use client";
+import { useEffect, useState } from "react";
 import LogoSmall from "@/components/icons/logo-small";
 import Link from "next/link";
+import AppOnlyOutputClient from "./AppOnlyOutput.client";
 
 function Spinner() {
   return (
@@ -30,17 +29,30 @@ function Spinner() {
   );
 }
 
-export default async function AppViewPage(props: { params: { id: string } }) {
-  const { params } = props;
-  const prisma = getPrisma();
-  const chat = await prisma.chat.findFirst({
-    where: { id: params.id },
-    include: { messages: { orderBy: { position: "asc" } } },
-  });
-  if (!chat) notFound();
-  const assistantMessage = chat.messages
-    .filter((m: Message) => m.role === "assistant")
-    .at(-1);
+export default function AppViewPageClient({ id }: { id: string }) {
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`/api/app/${id}`)
+      .then(async (res) => {
+        if (!res.ok) throw new Error("Not found");
+        return res.json();
+      })
+      .then((d) => {
+        setData(d);
+        setLoading(false);
+      })
+      .catch((e) => {
+        setError(e.message);
+        setLoading(false);
+      });
+  }, [id]);
+
+  let chat = data?.chat;
+  let assistantMessage = data?.assistantMessage;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -55,10 +67,10 @@ export default async function AppViewPage(props: { params: { id: string } }) {
         <div className="flex flex-1 justify-center">
           <div className="text-center">
             <div className="max-w-xs truncate font-semibold text-gray-800 sm:max-w-md md:max-w-lg">
-              {chat.title || chat.prompt}
+              {chat ? chat.title || chat.prompt : "Loading..."}
             </div>
             <div className="text-xs text-gray-400">
-              {new Date(chat.createdAt).toLocaleString()}
+              {chat ? new Date(chat.createdAt).toLocaleString() : null}
             </div>
           </div>
         </div>
@@ -70,16 +82,24 @@ export default async function AppViewPage(props: { params: { id: string } }) {
       </div>
       {/* App Output */}
       <div className="flex min-h-[60vh] flex-1 flex-col items-center justify-center">
-        {!assistantMessage ? (
+        {loading ? (
           <div className="flex flex-col items-center justify-center py-24">
             <Spinner />
-            <div className="mt-4 text-gray-500">Loading app output...</div>
+            <div className="mt-4 text-gray-500">Loading app...</div>
+          </div>
+        ) : error || !chat ? (
+          <div className="flex flex-col items-center justify-center py-24">
+            <Spinner />
+            <div className="mt-4 text-gray-500">No app output found.</div>
+          </div>
+        ) : !assistantMessage ? (
+          <div className="flex flex-col items-center justify-center py-24">
+            <Spinner />
+            <div className="mt-4 text-gray-500">No app output found.</div>
           </div>
         ) : (
           <div className="flex w-full justify-center">
-            <AppOnlyOutputClient
-              assistantMessage={assistantMessage as Message}
-            />
+            <AppOnlyOutputClient assistantMessage={assistantMessage} />
           </div>
         )}
       </div>
