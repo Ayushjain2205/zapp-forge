@@ -21,6 +21,7 @@ import { useS3Upload } from "next-s3-upload";
 import UploadIcon from "@/components/icons/upload-icon";
 import { XCircleIcon } from "@heroicons/react/20/solid";
 import { MODELS, SUGGESTED_PROMPTS } from "@/lib/constants";
+import { ZappCard, ZappIcons, ZappProject } from "@/components/ZappCard";
 
 // Add type for Chat
 interface Chat {
@@ -90,7 +91,7 @@ export default function Home() {
         <div className="flex items-center">
           <div className="relative h-12 w-12">
             <Image
-              src="/new-logo.png"
+              src="/new_logo.png"
               alt="ZapForge Logo"
               width={48}
               height={48}
@@ -98,17 +99,17 @@ export default function Home() {
               className="object-contain"
             />
           </div>
-          <span className="font-heading font-heading ml-2 bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-xl font-bold text-transparent">
-            ZAP<span className="font-heading text-purple-400">FORGE</span>
+          <span className="font-heading ml-2 bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-xl font-bold text-transparent">
+            ZAPP<span className="font-heading text-purple-400">FORGE</span>
           </span>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden px-4 pb-20 pt-32">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-purple-900/20 to-transparent" />
+      <section className="relative flex min-h-screen flex-col justify-center px-4 pb-20 pt-32">
+        <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-b from-purple-900/20 to-transparent" />
         {/* Digital code rain effect */}
-        <div className="absolute inset-0 overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
           <div className="code-rain">
             {[...Array(15)].map((_, i) => (
               <div
@@ -143,7 +144,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="container relative z-10 mx-auto max-w-4xl text-center">
+        <div className="container relative z-20 mx-auto max-w-4xl text-center">
           {/* Hero Heading */}
           <h1 className="font-heading mb-12 text-5xl font-bold tracking-tight md:text-7xl">
             <span className="font-heading text-white">Transform your </span>
@@ -159,7 +160,7 @@ export default function Home() {
 
           {/* Prompt Box */}
           <form
-            className="relative mx-auto max-w-3xl"
+            className="relative z-20 mx-auto max-w-3xl"
             action={async (formData) => {
               startTransition(async () => {
                 const { prompt, model, quality } = Object.fromEntries(formData);
@@ -195,23 +196,23 @@ export default function Home() {
               });
             }}
           >
-            {/* Glow effect behind prompt box */}
-            <div className="absolute -inset-6 rounded-xl bg-gradient-to-r from-purple-600/30 to-yellow-400/30 opacity-70 blur-xl"></div>
-            <div className="heat-distortion relative mb-8 overflow-hidden rounded-xl border border-purple-800 bg-zinc-900/70 p-6 shadow-2xl shadow-purple-600/20 backdrop-blur-md">
-              {/* Heat distortion effect */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-purple-600/5 to-transparent opacity-30"></div>
-              <div className="relative">
-                <div className="p-3">
-                  <p className="font-body invisible w-full whitespace-pre-wrap">
-                    {textareaResizePrompt}
-                  </p>
-                </div>
+            {/* Glow and heat distortion overlays behind prompt box */}
+            <div
+              className="pointer-events-none absolute -inset-6 z-10 rounded-xl bg-gradient-to-r from-purple-600/30 to-yellow-400/30 opacity-70 blur-xl"
+              style={{ zIndex: 10 }}
+            ></div>
+            <div
+              className="pointer-events-none absolute inset-0 z-10 rounded-xl bg-gradient-to-b from-purple-600/5 to-transparent opacity-30"
+              style={{ zIndex: 10 }}
+            ></div>
+            <div className="heat-distortion relative z-20 mb-8 overflow-hidden rounded-xl border border-purple-800 bg-zinc-900/80 p-6 shadow-2xl shadow-purple-600/20 backdrop-blur-md">
+              <div className="flex flex-col">
                 <textarea
                   placeholder="Describe your app idea in detail..."
                   required
                   name="prompt"
-                  rows={1}
-                  className="font-display peer absolute inset-0 min-h-[150px] w-full resize-none rounded-lg border-zinc-700 bg-transparent bg-zinc-800/50 p-3 px-4 py-4 text-lg text-white placeholder-gray-500 placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-purple-500 disabled:opacity-50"
+                  rows={4}
+                  className="font-display min-h-[150px] w-full resize-none rounded-xl border-none bg-zinc-900/80 p-4 text-lg text-white placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 disabled:opacity-50"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   onKeyDown={(event) => {
@@ -225,7 +226,7 @@ export default function Home() {
                 />
                 {/* Screenshot preview */}
                 {screenshotLoading && (
-                  <div className="relative mx-3 mt-3">
+                  <div className="relative z-20 mx-3 mt-3">
                     <div className="rounded-xl">
                       <div className="group mb-2 flex h-16 w-[68px] animate-pulse items-center justify-center rounded bg-gray-200">
                         <Spinner />
@@ -234,7 +235,7 @@ export default function Home() {
                   </div>
                 )}
                 {screenshotUrl && (
-                  <div className={`relative mx-3 mt-3`}>
+                  <div className={`relative z-20 mx-3 mt-3`}>
                     <div className="rounded-xl">
                       <img
                         alt="screenshot"
@@ -245,7 +246,7 @@ export default function Home() {
                     <button
                       type="button"
                       id="x-circle-icon"
-                      className="absolute -right-3 -top-4 left-14 z-10 size-5 rounded-full bg-white text-gray-900 hover:text-gray-500"
+                      className="absolute -right-3 -top-4 left-14 z-30 size-5 rounded-full bg-white text-gray-900 hover:text-gray-500"
                       onClick={() => {
                         setScreenshotUrl(undefined);
                         if (fileInputRef.current) {
@@ -258,14 +259,18 @@ export default function Home() {
                   </div>
                 )}
               </div>
-              <div className="mt-4 flex items-center justify-between border-t border-zinc-700/50 pt-4">
+              <div className="z-20 mt-4 flex items-center justify-between border-t border-zinc-700/50 pt-4">
                 <div className="flex items-center gap-3">
                   <Select.Root
                     name="model"
                     value={model}
                     onValueChange={setModel}
                   >
-                    <Select.Trigger className="font-display inline-flex w-[180px] items-center gap-1 rounded-md border-zinc-700 bg-zinc-800/70 p-1 text-sm text-gray-400 text-zinc-300 hover:bg-gray-100 hover:text-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-300">
+                    <Select.Trigger
+                      className="font-display z-30 inline-flex w-[180px] items-center gap-1 rounded-md border-zinc-900/70 bg-zinc-900/70 p-1 text-sm text-gray-400 text-zinc-300 hover:bg-zinc-900/80 hover:text-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-300"
+                      tabIndex={0}
+                      style={{ zIndex: 30 }}
+                    >
                       <Select.Value aria-label={model}>
                         <span className="font-display">
                           {selectedModel?.label}
@@ -276,13 +281,13 @@ export default function Home() {
                       </Select.Icon>
                     </Select.Trigger>
                     <Select.Portal>
-                      <Select.Content className="overflow-hidden rounded-md border-zinc-700 bg-white bg-zinc-800 shadow ring-1 ring-black/5">
+                      <Select.Content className="z-50 overflow-hidden rounded-md border-zinc-700 bg-zinc-900 shadow ring-1 ring-black/5">
                         <Select.Viewport className="space-y-1 p-2">
                           {MODELS.map((m) => (
                             <Select.Item
                               key={m.value}
                               value={m.value}
-                              className="font-display flex cursor-pointer items-center gap-1 rounded-md p-1 text-sm data-[highlighted]:bg-gray-100 data-[highlighted]:outline-none"
+                              className="font-display flex cursor-pointer items-center gap-1 rounded-md p-1 text-sm transition-colors data-[highlighted]:bg-yellow-400/90 data-[highlighted]:font-bold data-[highlighted]:text-purple-900 data-[highlighted]:outline-none"
                             >
                               <Select.ItemText className="font-display inline-flex items-center gap-2 text-gray-500">
                                 {m.label}
@@ -304,7 +309,11 @@ export default function Home() {
                     value={quality}
                     onValueChange={setQuality}
                   >
-                    <Select.Trigger className="font-display inline-flex items-center gap-1 rounded p-1 text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-300">
+                    <Select.Trigger
+                      className="font-display z-30 inline-flex items-center gap-1 rounded p-1 text-sm text-gray-400 hover:bg-zinc-900/80 hover:text-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-300"
+                      tabIndex={0}
+                      style={{ zIndex: 30 }}
+                    >
                       <Select.Value aria-label={quality}>
                         <span className="font-display max-sm:hidden">
                           {quality === "low"
@@ -320,7 +329,7 @@ export default function Home() {
                       </Select.Icon>
                     </Select.Trigger>
                     <Select.Portal>
-                      <Select.Content className="overflow-hidden rounded-md bg-white shadow ring-1 ring-black/5">
+                      <Select.Content className="z-50 overflow-hidden rounded-md bg-zinc-900 shadow ring-1 ring-black/5">
                         <Select.Viewport className="space-y-1 p-2">
                           {[
                             { value: "low", label: "Low quality [faster]" },
@@ -332,7 +341,7 @@ export default function Home() {
                             <Select.Item
                               key={q.value}
                               value={q.value}
-                              className="font-display flex cursor-pointer items-center gap-1 rounded-md p-1 text-sm data-[highlighted]:bg-gray-100 data-[highlighted]:outline-none"
+                              className="font-display flex cursor-pointer items-center gap-1 rounded-md p-1 text-sm transition-colors data-[highlighted]:bg-yellow-400/90 data-[highlighted]:font-bold data-[highlighted]:text-purple-900 data-[highlighted]:outline-none"
                             >
                               <Select.ItemText className="font-display inline-flex items-center gap-2 text-gray-500">
                                 {q.label}
@@ -352,7 +361,8 @@ export default function Home() {
                   <div>
                     <label
                       htmlFor="screenshot"
-                      className="font-display flex cursor-pointer gap-2 text-sm text-gray-400 hover:underline"
+                      className="font-display z-30 flex cursor-pointer gap-2 text-sm text-gray-400 hover:underline"
+                      style={{ zIndex: 30 }}
                     >
                       <div className="flex size-6 items-center justify-center rounded bg-black hover:bg-gray-700">
                         <UploadIcon className="size-4" />
@@ -371,14 +381,15 @@ export default function Home() {
                     />
                   </div>
                 </div>
-                <div className="relative flex shrink-0 has-[:disabled]:opacity-50">
-                  <div className="pointer-events-none absolute inset-0 -bottom-[1px] rounded bg-blue-500" />
-                  <LoadingButton
-                    className="font-display relative inline-flex size-6 items-center justify-center rounded bg-blue-500 font-medium text-white shadow-lg outline-blue-300 hover:bg-blue-500/75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                <div className="relative z-20 flex shrink-0 has-[:disabled]:opacity-50">
+                  <button
                     type="submit"
+                    className="font-heading flex items-center gap-3 rounded-2xl bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 px-8 py-4 text-xl font-bold text-purple-900 shadow-lg transition-all duration-200 hover:from-yellow-400 hover:to-yellow-600 hover:shadow-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+                    style={{ minWidth: 180 }}
                   >
-                    <ArrowRightIcon />
-                  </LoadingButton>
+                    <LightningBoltIcon className="h-7 w-7 text-purple-900" />
+                    FORGE
+                  </button>
                 </div>
               </div>
               {isPending && (
@@ -391,13 +402,14 @@ export default function Home() {
               <div className="absolute bottom-0 left-0 right-0 h-2 animate-pulse bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400"></div>
             </div>
             {/* Suggestion Chips */}
-            <div className="mb-6 flex flex-wrap justify-center gap-2">
+            <div className="relative z-30 mb-6 flex flex-wrap justify-center gap-2">
               {SUGGESTED_PROMPTS.map((v) => (
                 <button
                   key={v.title}
                   type="button"
                   onClick={() => setPrompt(v.description)}
-                  className="font-display flex items-center gap-1.5 rounded-full border border-purple-800 bg-zinc-900/70 px-3 py-1.5 text-sm text-zinc-300 transition-colors hover:bg-zinc-800"
+                  className="font-display z-30 flex items-center gap-1.5 rounded-full border border-purple-800 bg-zinc-900/70 px-3 py-1.5 text-sm text-zinc-300 transition-colors hover:bg-zinc-800"
+                  style={{ zIndex: 30 }}
                 >
                   {v.title}
                 </button>
@@ -422,35 +434,75 @@ export default function Home() {
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {chats.slice(0, 8).map((chat) => (
-                <div
-                  key={chat.id}
-                  className="group cursor-pointer"
-                  onClick={() => router.push(`/apps/${chat.id}`)}
-                  tabIndex={0}
-                  role="button"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      router.push(`/apps/${chat.id}`);
-                    }
-                  }}
-                >
-                  <div className="relative mb-3 flex aspect-video items-center justify-center overflow-hidden rounded-lg border border-purple-800 bg-zinc-900/50">
-                    {/* Placeholder image or screenshot if available in future */}
-                    <span className="font-display text-2xl font-bold text-zinc-500">
-                      {chat.title?.slice(0, 2) || chat.prompt.slice(0, 2)}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-display truncate text-sm text-zinc-400">
-                      {chat.title || chat.prompt}
-                    </span>
-                    <span className="font-display text-xs text-zinc-500">
-                      {new Date(chat.createdAt).toLocaleDateString()}
-                    </span>
-                  </div>
-                </div>
-              ))}
+              {chats.slice(0, 8).map((chat, idx) => {
+                // Simple mapping for category/icon/gradient
+                const categories = [
+                  {
+                    category: "Finance",
+                    icon: (
+                      <ZappIcons.Wallet className="h-4 w-4 text-yellow-200" />
+                    ),
+                    gradient: "from-yellow-500 to-orange-500",
+                  },
+                  {
+                    category: "NFT",
+                    icon: (
+                      <ZappIcons.ImageIcon className="h-4 w-4 text-pink-200" />
+                    ),
+                    gradient: "from-pink-500 to-purple-600",
+                  },
+                  {
+                    category: "Analytics",
+                    icon: (
+                      <ZappIcons.BarChart3 className="h-4 w-4 text-blue-200" />
+                    ),
+                    gradient: "from-blue-500 to-cyan-500",
+                  },
+                  {
+                    category: "DeFi",
+                    icon: <ZappIcons.Zap className="h-4 w-4 text-green-200" />,
+                    gradient: "from-green-400 to-emerald-500",
+                  },
+                  {
+                    category: "Social",
+                    icon: (
+                      <ZappIcons.Users className="h-4 w-4 text-purple-200" />
+                    ),
+                    gradient: "from-purple-500 to-indigo-600",
+                  },
+                  {
+                    category: "Metaverse",
+                    icon: <ZappIcons.Boxes className="h-4 w-4 text-red-200" />,
+                    gradient: "from-red-500 to-pink-500",
+                  },
+                  {
+                    category: "Governance",
+                    icon: (
+                      <ZappIcons.Layout className="h-4 w-4 text-amber-200" />
+                    ),
+                    gradient: "from-amber-500 to-orange-600",
+                  },
+                  {
+                    category: "Explorer",
+                    icon: <ZappIcons.Globe className="h-4 w-4 text-teal-200" />,
+                    gradient: "from-teal-400 to-cyan-500",
+                  },
+                ];
+                const cat = categories[idx % categories.length];
+                return (
+                  <ZappCard
+                    key={chat.id}
+                    project={{
+                      id: chat.id,
+                      title: chat.title || chat.prompt.slice(0, 32),
+                      creator: "0x0000000000000000000000000000000000000000", // Placeholder
+                      category: cat.category,
+                      icon: cat.icon,
+                      gradient: cat.gradient,
+                    }}
+                  />
+                );
+              })}
             </div>
           )}
           <div className="mt-10 text-center">
