@@ -97,7 +97,7 @@ export default function PageClient({ chat }: { chat: Chat }) {
             <Link href="/">
               <LogoSmall />
             </Link>
-            <p className="font-body italic text-muted-foreground">
+            <p className="font-heading font-semibold text-white">
               {chat.title}
             </p>
           </div>
