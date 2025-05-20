@@ -4,11 +4,11 @@ import AppOnlyOutputClient from "./AppOnlyOutput.client";
 import type { Chat, Message } from "../../chats/[id]/page";
 import LogoSmall from "@/components/icons/logo-small";
 import Link from "next/link";
-
+import Image from "next/image";
 function Spinner() {
   return (
     <svg
-      className="h-8 w-8 animate-spin text-blue-500"
+      className="h-8 w-8 animate-spin text-yellow-400"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -30,11 +30,15 @@ function Spinner() {
   );
 }
 
-export default async function AppViewPage(props: { params: { id: string } }) {
-  const { params } = props;
+export default async function AppViewPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   const prisma = getPrisma();
   const chat = await prisma.chat.findFirst({
-    where: { id: params.id },
+    where: { id },
     include: { messages: { orderBy: { position: "asc" } } },
   });
   if (!chat) notFound();
@@ -43,27 +47,34 @@ export default async function AppViewPage(props: { params: { id: string } }) {
     .at(-1);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="font-body min-h-screen bg-gradient-to-br from-purple-950 via-purple-900/60 to-black text-white">
       {/* Top Heading Bar */}
-      <div className="flex items-center justify-between border-b bg-white px-4 py-2 shadow-sm">
+      <div className="flex items-center justify-between border-b border-purple-800/50 bg-zinc-900/80 px-4 py-2 shadow-sm">
         <Link href="/">
           <div className="flex items-center gap-2">
-            <LogoSmall />
-            <span className="text-lg font-bold text-gray-700">ZappForge</span>
+            <Image
+              src="/new_logo.png"
+              alt="ZapForge Logo"
+              width={40}
+              height={40}
+            />
+            <span className="font-heading bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-lg font-bold text-transparent">
+              ZAPP<span className="text-purple-400">FORGE</span>
+            </span>
           </div>
         </Link>
         <div className="flex flex-1 justify-center">
           <div className="text-center">
-            <div className="max-w-xs truncate font-semibold text-gray-800 sm:max-w-md md:max-w-lg">
+            <div className="font-heading max-w-xs truncate font-semibold text-white sm:max-w-md md:max-w-lg">
               {chat.title || chat.prompt}
             </div>
-            <div className="text-xs text-gray-400">
+            <div className="text-xs text-zinc-400">
               {new Date(chat.createdAt).toLocaleString()}
             </div>
           </div>
         </div>
         <div>
-          <button className="rounded bg-blue-500 px-4 py-1.5 font-medium text-white shadow transition hover:bg-blue-600">
+          <button className="font-heading rounded bg-gradient-to-r from-yellow-400 to-yellow-500 px-4 py-1.5 font-bold text-purple-900 shadow transition hover:from-yellow-500 hover:to-yellow-600 hover:shadow-lg">
             Remix
           </button>
         </div>
@@ -73,7 +84,9 @@ export default async function AppViewPage(props: { params: { id: string } }) {
         {!assistantMessage ? (
           <div className="flex flex-col items-center justify-center py-24">
             <Spinner />
-            <div className="mt-4 text-gray-500">Loading app output...</div>
+            <div className="font-display mt-4 text-zinc-400">
+              Loading app output...
+            </div>
           </div>
         ) : (
           <div className="flex w-full justify-center">

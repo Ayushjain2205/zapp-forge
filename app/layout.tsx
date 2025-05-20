@@ -42,8 +42,7 @@ export default function RootLayout({
       <head>
         <PlausibleProvider domain="zappforge.io" />
       </head>
-
-      {children}
+      <body className="h-full">{children}</body>
     </html>
   );
 }

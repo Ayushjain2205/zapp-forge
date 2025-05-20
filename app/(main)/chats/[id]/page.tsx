@@ -13,7 +13,11 @@ export default async function Page({
 
   if (!chat) notFound();
 
-  return <PageClient chat={chat} />;
+  return (
+    <div className="font-body min-h-screen bg-gradient-to-br from-purple-950 via-purple-900/60 to-black text-white">
+      <PageClient chat={chat} />
+    </div>
+  );
 }
 
 const getChatById = cache(async (id: string) => {

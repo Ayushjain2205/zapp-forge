@@ -30,16 +30,13 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${orbitron.variable} ${spaceGrotesk.variable} ${barlow.variable}`}
+    <div
+      className={`font-body min-h-screen ${orbitron.variable} ${spaceGrotesk.variable} ${barlow.variable}`}
     >
-      <body className="font-body min-h-screen">
-        <Providers>
-          {children}
-          <Toaster />
-        </Providers>
-      </body>
-    </html>
+      <Providers>
+        {children}
+        <Toaster />
+      </Providers>
+    </div>
   );
 }
