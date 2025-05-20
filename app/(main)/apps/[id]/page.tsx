@@ -49,7 +49,7 @@ export default async function AppViewPage({
   return (
     <div className="font-body min-h-screen bg-gradient-to-br from-purple-950 via-purple-900/60 to-black text-white">
       {/* Top Heading Bar */}
-      <div className="flex items-center justify-between border-b border-purple-800/50 bg-zinc-900/80 px-4 py-2 shadow-sm">
+      <div className="fixed left-0 top-0 z-20 flex w-full items-center justify-between border-b border-purple-800/50 bg-zinc-900 px-4 py-2 shadow-sm">
         <Link href="/">
           <div className="flex items-center gap-2">
             <Image
@@ -65,11 +65,10 @@ export default async function AppViewPage({
         </Link>
         <div className="flex flex-1 justify-center">
           <div className="text-center">
-            <div className="font-heading max-w-xs truncate font-semibold text-white sm:max-w-md md:max-w-lg">
-              {chat.title || chat.prompt}
-            </div>
-            <div className="text-xs text-zinc-400">
-              {new Date(chat.createdAt).toLocaleString()}
+            <div className="font-heading flex max-w-xs flex-wrap items-center justify-center gap-1 font-semibold text-white sm:max-w-md md:max-w-lg">
+              <span className="truncate">{chat.title || chat.prompt}</span>
+              <span className="mx-1 font-normal text-zinc-400">by</span>
+              <span className="truncate text-sm font-normal">0xdsc..poc</span>
             </div>
           </div>
         </div>
@@ -80,7 +79,7 @@ export default async function AppViewPage({
         </div>
       </div>
       {/* App Output */}
-      <div className="flex min-h-[60vh] flex-1 flex-col items-center justify-center">
+      <div className="flex min-h-[60vh] flex-1 flex-col items-center justify-center pt-16">
         {!assistantMessage ? (
           <div className="flex flex-col items-center justify-center py-24">
             <Spinner />

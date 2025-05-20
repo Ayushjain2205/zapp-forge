@@ -267,7 +267,7 @@ export default function Home() {
                     onValueChange={setModel}
                   >
                     <Select.Trigger
-                      className="font-display z-30 inline-flex w-[180px] items-center gap-1 rounded-md border-zinc-900/70 bg-zinc-900/70 p-1 text-sm text-gray-400 text-zinc-300 hover:bg-zinc-900/80 hover:text-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-300"
+                      className="font-display z-30 inline-flex w-[180px] items-center gap-1 rounded-md border-zinc-900/70 bg-zinc-900/70 p-1 text-sm text-gray-400 hover:bg-zinc-900/80 hover:text-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-300"
                       tabIndex={0}
                       style={{ zIndex: 30 }}
                     >
