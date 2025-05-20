@@ -7,22 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { createMessage } from "../../actions";
 import { type Chat } from "./page";
-
-// Zap icon from ZappCard.tsx
-const ZapIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <polygon
-      points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"
-      fill="#6b21a8"
-      fillOpacity=".1"
-    />
-    <polygon
-      points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"
-      stroke="#6b21a8"
-      strokeWidth="1.5"
-    />
-  </svg>
-);
+import LightningBoltIcon from "@/components/icons/lightning-bolt";
 
 export default function ChatBox({
   chat,
@@ -123,7 +108,7 @@ export default function ChatBox({
                 type="submit"
               >
                 <Spinner loading={disabled}>
-                  <ZapIcon className="h-5 w-5 text-white" />
+                  <LightningBoltIcon className="h-5 w-5 text-purple-900" />
                 </Spinner>
               </button>
             </div>
