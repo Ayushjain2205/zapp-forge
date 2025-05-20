@@ -22,7 +22,7 @@ export default function ChatLog({
 
   return (
     <StickToBottom
-      className="relative grow overflow-hidden"
+      className="font-display relative grow overflow-hidden"
       resize="smooth"
       initial="smooth"
     >
@@ -62,7 +62,7 @@ export default function ChatLog({
 function UserMessage({ content }: { content: string }) {
   return (
     <div className="relative inline-flex max-w-[80%] items-end gap-3 self-end">
-      <div className="whitespace-pre-wrap rounded bg-white px-4 py-2 text-gray-600 shadow">
+      <div className="font-display whitespace-pre-wrap rounded-lg border-l-4 border-yellow-400 bg-zinc-800 px-4 py-2 text-white shadow-lg">
         {content}
       </div>
     </div>
@@ -89,18 +89,20 @@ function AssistantMessage({
       {parts.map((part, i) => (
         <div key={i}>
           {part.type === "text" ? (
-            <Markdown className="prose">{part.content}</Markdown>
+            <Markdown className="font-display prose prose-invert text-white">
+              {part.content}
+            </Markdown>
           ) : part.type === "first-code-fence-generating" ? (
             <div className="my-4">
               <button
                 disabled
-                className="inline-flex w-full animate-pulse items-center gap-2 rounded-lg border-4 border-gray-300 p-1.5"
+                className="inline-flex w-full animate-pulse items-center gap-2 rounded-lg border-4 border-purple-800 bg-zinc-900/70 p-1.5 shadow-lg"
               >
-                <div className="flex size-8 items-center justify-center rounded bg-gray-300 font-bold">
+                <div className="flex size-8 items-center justify-center rounded border-2 border-yellow-400 bg-zinc-900 font-bold text-yellow-400">
                   V{version}
                 </div>
                 <div className="flex flex-col gap-0.5 text-left leading-none">
-                  <div className="text-sm font-medium leading-none">
+                  <div className="text-sm font-medium leading-none text-zinc-300">
                     Generating...
                   </div>
                 </div>
@@ -109,20 +111,20 @@ function AssistantMessage({
           ) : message ? (
             <div className="my-4">
               <button
-                className={`${isActive ? "bg-white" : "bg-gray-300 hover:border-gray-400 hover:bg-gray-400"} inline-flex w-full items-center gap-2 rounded-lg border-4 border-gray-300 p-1.5`}
+                className={`${isActive ? "bg-zinc-900/70" : "bg-zinc-900 hover:border-yellow-400 hover:bg-zinc-800"} inline-flex w-full items-center gap-2 rounded-lg border-4 border-purple-800 p-1.5 shadow-lg`}
                 onClick={() => onMessageClick(message)}
               >
                 <div
-                  className={`${isActive ? "bg-gray-300" : "bg-gray-200"} flex size-8 items-center justify-center rounded font-bold`}
+                  className={`${isActive ? "bg-zinc-900" : "bg-zinc-900/70"} flex size-8 items-center justify-center rounded border-2 border-yellow-400 font-bold text-yellow-400`}
                 >
                   V{version}
                 </div>
                 <div className="flex flex-col gap-0.5 text-left leading-none">
-                  <div className="text-sm font-medium leading-none">
+                  <div className="text-sm font-medium leading-none text-white">
                     {toTitleCase(part.filename.name)}{" "}
                     {version !== 1 && `v${version}`}
                   </div>
-                  <div className="text-xs leading-none text-gray-500">
+                  <div className="text-xs leading-none text-zinc-300">
                     {part.filename.name}
                     {version !== 1 && `-v${version}`}
                     {"."}
@@ -137,18 +139,18 @@ function AssistantMessage({
           ) : (
             <div className="my-4">
               <button
-                className="inline-flex w-full items-center gap-2 rounded-lg border-4 border-gray-300 p-1.5"
+                className="inline-flex w-full items-center gap-2 rounded-lg border-4 border-purple-800 bg-zinc-900/70 p-1.5 shadow-lg"
                 disabled
               >
-                <div className="flex size-8 items-center justify-center rounded bg-gray-300 font-bold">
+                <div className="flex size-8 items-center justify-center rounded border-2 border-yellow-400 bg-zinc-900 font-bold text-yellow-400">
                   V{version}
                 </div>
                 <div className="flex flex-col gap-0.5 text-left leading-none">
-                  <div className="text-sm font-medium leading-none">
+                  <div className="text-sm font-medium leading-none text-white">
                     {toTitleCase(part.filename.name)}{" "}
                     {version !== 1 && `v${version}`}
                   </div>
-                  <div className="text-xs leading-none text-gray-500">
+                  <div className="text-xs leading-none text-zinc-300">
                     {part.filename.name}
                     {version !== 1 && `-v${version}`}
                     {"."}

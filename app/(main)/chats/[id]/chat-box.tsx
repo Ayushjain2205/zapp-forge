@@ -8,6 +8,22 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { createMessage } from "../../actions";
 import { type Chat } from "./page";
 
+// Zap icon from ZappCard.tsx
+const ZapIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <polygon
+      points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"
+      fill="#6b21a8"
+      fillOpacity=".1"
+    />
+    <polygon
+      points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"
+      stroke="#6b21a8"
+      strokeWidth="1.5"
+    />
+  </svg>
+);
+
 export default function ChatBox({
   chat,
   onNewStreamPromise,
@@ -40,7 +56,7 @@ export default function ChatBox({
   }, [disabled]);
 
   return (
-    <div className="mx-auto mb-5 flex w-full max-w-prose shrink-0 px-8">
+    <div className="font-display mx-auto mb-5 flex w-full max-w-prose shrink-0 px-8">
       <form
         className="relative flex w-full"
         action={async () => {
@@ -71,10 +87,10 @@ export default function ChatBox({
         }}
       >
         <fieldset className="w-full" disabled={disabled}>
-          <div className="relative flex rounded-lg border-4 border-gray-300 bg-white">
+          <div className="relative flex rounded-lg border-4 border-purple-800 bg-zinc-900/80">
             <div className="relative w-full">
               <div className="w-full p-2">
-                <p className="invisible min-h-[48px] w-full whitespace-pre-wrap">
+                <p className="font-body invisible min-h-[48px] w-full whitespace-pre-wrap text-white">
                   {textareaResizePrompt}
                 </p>
               </div>
@@ -86,7 +102,7 @@ export default function ChatBox({
                 onChange={(e) => setPrompt(e.target.value)}
                 required
                 name="prompt"
-                className="peer absolute inset-0 w-full resize-none bg-transparent p-2 placeholder-gray-500 focus:outline-none disabled:opacity-50"
+                className="font-display peer absolute inset-0 w-full resize-none bg-transparent p-2 text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
                 onKeyDown={(event) => {
                   if (event.key === "Enter" && !event.shiftKey) {
                     event.preventDefault();
@@ -97,17 +113,17 @@ export default function ChatBox({
                 }}
               />
             </div>
-            <div className="pointer-events-none absolute inset-0 rounded peer-focus:outline peer-focus:outline-offset-0 peer-focus:outline-blue-500" />
+            <div className="pointer-events-none absolute inset-0 rounded peer-focus:outline peer-focus:outline-offset-0 peer-focus:outline-purple-500" />
 
             <div className="absolute bottom-1.5 right-1.5 flex has-[:disabled]:opacity-50">
-              <div className="pointer-events-none absolute inset-0 -bottom-[1px] rounded bg-blue-700" />
+              <div className="pointer-events-none absolute inset-0 -bottom-[1px] rounded bg-gradient-to-r from-yellow-400 to-yellow-500" />
 
               <button
-                className="relative inline-flex size-6 items-center justify-center rounded bg-blue-500 font-medium text-white shadow-lg outline-blue-300 hover:bg-blue-500/75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                className="font-heading relative inline-flex size-8 items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-purple-900 shadow-lg outline-yellow-400 hover:from-yellow-400 hover:to-yellow-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
                 type="submit"
               >
                 <Spinner loading={disabled}>
-                  <ArrowRightIcon />
+                  <ZapIcon className="h-5 w-5 text-white" />
                 </Spinner>
               </button>
             </div>
