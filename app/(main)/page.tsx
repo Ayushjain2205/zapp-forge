@@ -22,6 +22,7 @@ import UploadIcon from "@/components/icons/upload-icon";
 import { XCircleIcon } from "@heroicons/react/20/solid";
 import { MODELS, SUGGESTED_PROMPTS } from "@/lib/constants";
 import { ZappCard, ZappIcons, ZappProject } from "@/components/ZappCard";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 // Add type for Chat
 interface Chat {
@@ -88,20 +89,25 @@ export default function Home() {
     <div className="bg-gradient-radial font-body min-h-screen from-purple-950 via-purple-900/30 to-black text-white">
       {/* Header */}
       <header className="absolute left-0 top-0 z-50 w-full px-6 py-4">
-        <div className="flex items-center">
-          <div className="relative h-12 w-12">
-            <Image
-              src="/new_logo.png"
-              alt="ZapForge Logo"
-              width={48}
-              height={48}
-              priority
-              className="object-contain"
-            />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="relative h-12 w-12">
+              <Image
+                src="/new_logo.png"
+                alt="ZapForge Logo"
+                width={48}
+                height={48}
+                priority
+                className="object-contain"
+              />
+            </div>
+            <span className="font-heading ml-2 bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-xl font-bold text-transparent">
+              ZAPP<span className="font-heading text-purple-400">FORGE</span>
+            </span>
           </div>
-          <span className="font-heading ml-2 bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-xl font-bold text-transparent">
-            ZAPP<span className="font-heading text-purple-400">FORGE</span>
-          </span>
+          <div>
+            <ConnectButton />
+          </div>
         </div>
       </header>
 
@@ -147,14 +153,14 @@ export default function Home() {
         <div className="container relative z-20 mx-auto max-w-4xl text-center">
           {/* Hero Heading */}
           <h1 className="font-heading mb-12 text-5xl font-bold tracking-tight md:text-7xl">
-            <span className="font-heading text-white">Transform your </span>
+            <span className="font-heading text-white">Type your </span>
             <span className="font-heading bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
               vision
             </span>
-            <br />
-            <span className="font-heading text-white">into </span>
+            <br className="mb-4" />
+            <span className="font-heading text-white">Forge a real </span>
             <span className="font-heading bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
-              reality
+              app
             </span>
           </h1>
 
